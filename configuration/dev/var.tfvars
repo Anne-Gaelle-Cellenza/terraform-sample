@@ -1,5 +1,5 @@
-resource_group_name = "sylvain.martinez"
-admin_account_login = "devadmindb"
-project_name        = "cicdtsma"
+resource_group_name = ""
+admin_account_login = ""
+project_name        = ""
 location            = "westeurope"
 environment         = "dev"
