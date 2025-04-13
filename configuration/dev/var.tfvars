@@ -1,5 +1,5 @@
-resource_group_name = ""
-admin_account_login = ""
-project_name        = ""
+resource_group_name = "tf-cicd-labs-GH-20250411"
+admin_account_login = "admin-agd"
+project_name        = "tf-cicd-labs"
 location            = "westeurope"
 environment         = "dev"
