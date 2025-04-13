@@ -1,4 +1,4 @@
-name: Format Terraform configuration file contents
+name: (second) Format Terraform configuration file contents
 on:
   workflow_dispatch:
   pull_request:
