@@ -1,0 +1,27 @@
+name: Deploy Terraform templates to dev
+on:
+  push:
+    branches: [ "dev" ]
+    
+jobs:
+
+  TF_apply_to_dev:
+    runs-on: ubuntu-22.04
+    environment: dev
+    env:
+      TF_VAR_admin_account_password : ${{ secrets.admin_account_password }}
+      ARM_CLIENT_ID: ${{ vars.SP_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.SP_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.SUBSCRIPTION_ID }}        
+    
+    steps:
+
+    - uses: actions/checkout@v4
+    - name: terraform_deploy_to_dev
+      shell: pwsh
+      run: |
+        cd $env:GITHUB_WORKSPACE/src/terraform
+        terraform init -upgrade -backend-config='../../configuration/dev/backend.hcl'
+        terraform apply -var-file='../../configuration/dev/var.tfvars' -input=false -auto-approve
+  
