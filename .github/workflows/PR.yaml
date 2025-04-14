@@ -1,4 +1,4 @@
-name: Format Terraform configuration file contents
+name: Plan Terraform resources (dev environment)
 on:
   workflow_dispatch:
   pull_request:
@@ -18,3 +18,24 @@ jobs:
       run: |
         cd ./src/terraform
         terraform fmt -recursive -check -diff
+
+  terraform_plan:
+    runs-on: ubuntu-22.04
+    name: TF_Plan
+    needs: linter
+    environment: dev
+    steps:
+
+    - uses: actions/checkout@v4
+    - name: terraform_plan_on_dev
+      shell: pwsh
+      run: |
+        cd ./src/terraform
+        terraform init -upgrade -backend-config='../../configuration/dev/backend.hcl'
+        terraform plan -var-file='../../configuration/dev/var.tfvars' -input=false
+      env:
+        TF_VAR_admin_account_password : ${{ secrets.admin_account_password }}
+        ARM_CLIENT_ID: ${{ vars.SP_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ vars.SP_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ vars.SUBSCRIPTION_ID }}
