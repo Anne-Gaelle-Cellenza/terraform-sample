@@ -23,6 +23,6 @@ jobs:
       with:
         name: terraform
         path: |
-          $GITHUB_WORKSPACE/artifact/terraform
+          ${{ github.workspace }}/artifact/terraform
         retention-days: 90 # this is the default and max period
         overwrite: true # replaces any existing artifact with matching name
