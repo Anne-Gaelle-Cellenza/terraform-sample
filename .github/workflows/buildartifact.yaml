@@ -14,9 +14,9 @@ jobs:
     - name: build_artifact_data
       shell: pwsh
       run: |
-        New-Item -Name artifact/terraform -ItemType Directory -Path $GITHUB_WORKSPACE
-        Copy-Item -Path $GITHUB_WORKSPACE/configuration -Destination $GITHUB_WORKSPACE/artifact/terraform -Recurse
-        Copy-Item -Path $GITHUB_WORKSPACE/src -Destination $GITHUB_WORKSPACE/artifact/terraform -Recurse
+        New-Item -Name artifact/terraform -ItemType Directory -Path $env:GITHUB_WORKSPACE
+        Copy-Item -Path $env:GITHUB_WORKSPACE/configuration -Destination $env:GITHUB_WORKSPACE/artifact/terraform -Recurse
+        Copy-Item -Path $env:GITHUB_WORKSPACE/src -Destination $env:GITHUB_WORKSPACE/artifact/terraform -Recurse
 
     - name: build_terrafrom_artifact
       uses: actions/upload-artifact@v4
