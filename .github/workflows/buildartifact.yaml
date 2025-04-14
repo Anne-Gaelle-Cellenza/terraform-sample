@@ -1,0 +1,28 @@
+name: Build Terraform templates artifact
+on:
+  push:
+    branches: [ "main" ]
+    
+jobs:
+
+  Build_TF_artifact:
+    runs-on: ubuntu-latest    
+    
+    steps:
+
+    - uses: actions/checkout@v4
+    - name: build_artifact_data
+      shell: pwsh
+      run: |
+        New-Item -Name artifact/terraform -ItemType Directory -Path $GITHUB_WORKSPACE
+        Copy-Item -Path $GITHUB_WORKSPACE/configuration -Destination $GITHUB_WORKSPACE/artifact/terraform -Recurse
+        Copy-Item -Path $GITHUB_WORKSPACE/src -Destination $GITHUB_WORKSPACE/artifact/terraform -Recurse
+
+    - name: build_terrafrom_artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform
+        path: |
+          $GITHUB_WORKSPACE/artifact/terraform
+        retention-days: 90 # this is the default and max period
+        overwrite: true # replaces any existing artifact with matching name
