@@ -21,7 +21,7 @@ jobs:
 
   terraform_plan:
     runs-on: ubuntu-22.04
-    name: TF_Plan
+    name: TF_plan_on_dev
     needs: linter
     environment: dev
     steps:
