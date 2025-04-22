@@ -16,8 +16,8 @@ runs:
       shell: pwsh
       run: |
         cd $env:GITHUB_WORKSPACE/src/terraform
-        terraform init -upgrade -backend-config='../../configuration/dev/backend.hcl'
-        terraform apply -var-file='../../configuration/dev/var.tfvars' -input=false -auto-approve
+        terraform init -upgrade -backend-config='../../configuration/${{ inputs.environment }}/backend.hcl'
+        terraform plan -var-file='../../configuration/${{ inputs.environment }}/var.tfvars' -input=false -auto-approve
       env:
         TF_VAR_admin_account_password : ${{ secrets.admin_account_password }}
         ARM_CLIENT_ID: ${{ vars.SP_CLIENT_ID }}
