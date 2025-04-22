@@ -14,8 +14,10 @@ runs:
     - name: terraform_plan_to_${{ inputs.environment }}
       environment: ${{ inputs.environment }}
       shell: pwsh
+      env: 
+        tf_src_folder: ${{ inputs.src_folder }}
       run: |
-        cd $env:GITHUB_WORKSPACE/src/terraform
+        cd $tf_src_folder
         terraform init -upgrade -backend-config='../../configuration/${{ inputs.environment }}/backend.hcl'
         terraform plan -var-file='../../configuration/${{ inputs.environment }}/var.tfvars' -input=false -auto-approve
       env:
