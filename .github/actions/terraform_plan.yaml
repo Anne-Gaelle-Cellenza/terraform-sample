@@ -1,0 +1,26 @@
+name: Composite action for Terraform apply
+description: Runs Terraform apply on selected environment
+
+inputs:
+  environment:
+    description: The environment where to run the action
+    default: 'uat'
+
+runs:
+  using: "composite"    
+  steps:
+
+    - uses: actions/checkout@v4
+    - name: terraform_apply_to_${{ inputs.environment }}
+      environment: ${{ inputs.environment }}
+      shell: pwsh
+      run: |
+        cd $env:GITHUB_WORKSPACE/src/terraform
+        terraform init -upgrade -backend-config='../../configuration/dev/backend.hcl'
+        terraform apply -var-file='../../configuration/dev/var.tfvars' -input=false -auto-approve
+      env:
+        TF_VAR_admin_account_password : ${{ secrets.admin_account_password }}
+        ARM_CLIENT_ID: ${{ vars.SP_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.SP_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ vars.SUBSCRIPTION_ID }}        
