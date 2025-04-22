@@ -1,0 +1,17 @@
+name: Release pipeline from dev to prod
+on:
+  workflow_dispatch:
+    
+jobs:
+
+  TF_apply_to_uat:
+    runs-on: ubuntu-22.04
+    environment: uat   
+    
+    steps:
+
+    - run: echo "Terraform plan on uat"
+      shell: bash
+    - uses: ./.github/actions/terraform_plan
+      with:
+        environment: uat
