@@ -20,7 +20,7 @@ runs:
       env: 
         tf_src_folder: ${{ inputs.tf_src_folder }}
       run: |
-        cd $tf_src_folder
+        cd $env:tf_src_folder
         terraform init -upgrade -backend-config='../../configuration/${{ inputs.environment }}/backend.hcl'
         terraform plan -var-file='../../configuration/${{ inputs.environment }}/var.tfvars' -input=false -auto-approve
       env:
