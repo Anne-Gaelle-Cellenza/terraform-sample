@@ -5,6 +5,9 @@ inputs:
   environment:
     description: The environment where to run the action
     default: 'uat'
+  tf_src_folder:
+    description: Folder containing Terraform template files (absolute path)
+    required: true
 
 runs:
   using: "composite"    
@@ -15,7 +18,7 @@ runs:
       environment: ${{ inputs.environment }}
       shell: pwsh
       env: 
-        tf_src_folder: ${{ inputs.src_folder }}
+        tf_src_folder: ${{ inputs.tf_src_folder }}
       run: |
         cd $tf_src_folder
         terraform init -upgrade -backend-config='../../configuration/${{ inputs.environment }}/backend.hcl'
