@@ -1,17 +1,48 @@
 name: Release pipeline from dev to prod
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+    - main
+  push:
+    branches:
+    - main  
     
 jobs:
 
-  TF_apply_to_uat:
+  TF_plan_to_uat:
     runs-on: ubuntu-22.04
-    environment: uat   
-    
+    name: Terraform plan on uat
     steps:
 
-    - run: echo "Terraform plan on uat"
-      shell: bash
     - uses: ./.github/actions/terraform_plan
       with:
         environment: uat
+
+  TF_apply_to_uat:
+    runs-on: ubuntu-22.04
+    name: Terraform apply to uat
+    steps:
+
+    - uses: ./.github/actions/terraform_apply
+      with:
+        environment: uat
+
+  TF_plan_to_prod:
+    runs-on: ubuntu-22.04
+    name: Terraform plan on prod
+    steps:
+
+    - uses: ./.github/actions/terraform_plan
+      with:
+        environment: prod
+
+  TF_apply_to_prod:
+    runs-on: ubuntu-22.04
+    name: Terraform apply to prod
+    steps:
+
+    - uses: ./.github/actions/terraform_apply
+      with:
+        environment: prod
+  
