@@ -15,7 +15,7 @@ jobs:
     name: Terraform plan on uat
     steps:
 
-    - uses: ./.github/actions/terraform_plan
+    - uses: ./.github/actions/terraform_plan@main
       with:
         environment: uat
 
@@ -24,7 +24,7 @@ jobs:
     name: Terraform apply to uat
     steps:
 
-    - uses: ./.github/actions/terraform_apply
+    - uses: ./.github/actions/terraform_apply@main
       with:
         environment: uat
 
@@ -33,7 +33,7 @@ jobs:
     name: Terraform plan on prod
     steps:
 
-    - uses: ./.github/actions/terraform_plan
+    - uses: ./.github/actions/terraform_plan@main
       with:
         environment: prod
 
@@ -42,7 +42,7 @@ jobs:
     name: Terraform apply to prod
     steps:
 
-    - uses: ./.github/actions/terraform_apply
+    - uses: ./.github/actions/terraform_apply@main
       with:
         environment: prod
   
