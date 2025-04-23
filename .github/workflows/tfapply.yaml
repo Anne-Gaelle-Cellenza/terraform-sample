@@ -5,7 +5,6 @@ on:
       environment:
         description: The environment where to run the action
         type: string
-        default: 'uat'
         required: true
     
 jobs:
@@ -19,7 +18,7 @@ jobs:
 
     - uses: ./.github/actions/terraform_plan@main
       with:
-        environment: uat # should have required reviewers
+        environment: ${{ inputs.environment }} # can have required reviewers
         stepName: tf_plan
 
   TF_apply:
@@ -33,5 +32,5 @@ jobs:
 
     - uses: ./.github/actions/terraform_apply@main
       with:
-        environment: uat
+        environment: ${{ inputs.environment }} # can have required reviewers
         stepName: tf_apply
