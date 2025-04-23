@@ -20,6 +20,7 @@ jobs:
   tf_apply_to_prod:
     # at merge PR time (push to main)
     if: github.ref == 'refs/heads/main'
+    needs: [tf_apply_to_uat]
     uses: ./.github/workflows/tfapply.yaml
     with:
       environment: prod
