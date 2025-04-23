@@ -23,5 +23,3 @@ jobs:
     uses: ./.github/workflows/tfapply.yaml
     with:
       environment: prod
-
-  
