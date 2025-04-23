@@ -20,7 +20,7 @@ jobs:
     - run: |
         ls -la .
         ls -l ./.github/actions/terraform_plan/*
-    - uses: ./.github/actions/terraform_plan@main
+    - uses: ./.github/actions/terraform_plan
       with:
         environment: ${{ inputs.environment }} # can have required reviewers
         stepName: tf_plan
@@ -35,7 +35,7 @@ jobs:
     steps:
 
     - uses: actions/checkout@v4
-    - uses: ./.github/actions/terraform_apply@main
+    - uses: ./.github/actions/terraform_apply
       with:
         environment: ${{ inputs.environment }} # can have required reviewers
         stepName: tf_apply
