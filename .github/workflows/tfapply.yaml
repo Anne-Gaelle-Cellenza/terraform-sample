@@ -17,9 +17,6 @@ jobs:
     steps:
 
     - uses: actions/checkout@v4
-    - run: |
-        ls -la .
-        ls -l ./.github/actions/terraform_plan/*
     - uses: ./.github/actions/terraform_plan
       with:
         environment: ${{ inputs.environment }} # can have required reviewers
