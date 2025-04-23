@@ -10,9 +10,7 @@ runs:
   using: "composite"    
   steps:
 
-    - uses: actions/checkout@v4
-    - name: terraform_apply_to_${{ inputs.environment }}
-      environment: ${{ inputs.environment }}
+    - name: Terraform apply
       shell: pwsh
       run: |
         cd $env:GITHUB_WORKSPACE/src/terraform
