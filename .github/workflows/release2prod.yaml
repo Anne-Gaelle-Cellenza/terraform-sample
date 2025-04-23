@@ -11,5 +11,17 @@ on:
 jobs:
 
   tf_apply_to_uat:
+    # if triggered by a Pull Request
+    if: github.ref != 'refs/heads/main'
     uses: ./.github/workflows/tfapply.yaml
-    
+    with:
+      environment: uat
+
+  tf_apply_to_prod:
+    # at merge PR time (push to main)
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/tfapply.yaml
+    with:
+      environment: prod
+
+  
