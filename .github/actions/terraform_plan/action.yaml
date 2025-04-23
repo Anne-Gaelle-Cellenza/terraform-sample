@@ -5,19 +5,29 @@ inputs:
   environment:
     description: The environment where to run the action
     default: 'uat'
+  stepName:
+    description: The name of the job step to execute and catch output from
+    required: true
 
 runs:
   using: "composite"    
   steps:
 
     - uses: actions/checkout@v4
-    - name: terraform_plan_to_${{ inputs.environment }}
+    - name: Terraform plan
+      id: ${{ inputs.stepName }}
       environment: ${{ inputs.environment }}
-      shell: pwsh
+      shell: bash
       run: |
-        cd $env:GITHUB_WORKSPACE/src/terraform
+        cd $GITHUB_WORKSPACE/src/terraform
         terraform init -upgrade -backend-config='../../configuration/${{ inputs.environment }}/backend.hcl'
-        terraform plan -var-file='../../configuration/${{ inputs.environment }}/var.tfvars' -input=false -auto-approve
+        exitcode=0
+        terraform plan -detailed-exitcode -var-file='../../configuration/${{ inputs.environment }}/var.tfvars' -input=false -auto-approve || exitcode=$?
+        echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+        if [ $exitcode -eq 1 ]; then
+          echo "Error in TF plan - exit"
+          exit 1
+        fi
       env:
         TF_VAR_admin_account_password : ${{ secrets.admin_account_password }}
         ARM_CLIENT_ID: ${{ vars.SP_CLIENT_ID }}
