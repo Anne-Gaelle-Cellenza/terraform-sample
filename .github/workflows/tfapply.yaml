@@ -1,0 +1,36 @@
+name: Reusable workflow for Terraform plan-apply
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: The environment where to run the action
+        type: string
+        required: true
+    
+jobs:
+
+  TF_plan:
+    runs-on: ubuntu-22.04
+    name: Terraform plan
+    outputs:
+      tfPlanExitCode: ${{ steps.tf_plan.outputs.exitcode }}
+    steps:
+
+    - uses: ./.github/actions/terraform_plan@main
+      with:
+        environment: ${{ inputs.environment }} # can have required reviewers
+        stepName: tf_plan
+
+  TF_apply:
+    runs-on: ubuntu-22.04
+    name: Terraform apply
+    needs:
+    - TF_plan
+    # only run this step if the previous plan step returned 2 == changes exist in TF plan
+    if: needs.TF_plan.outputs.tfPlanExitCode == 2
+    steps:
+
+    - uses: ./.github/actions/terraform_apply@main
+      with:
+        environment: ${{ inputs.environment }} # can have required reviewers
+        stepName: tf_apply
