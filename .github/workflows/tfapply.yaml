@@ -16,6 +16,7 @@ jobs:
       tfPlanExitCode: ${{ steps.tf_plan.outputs.exitcode }}
     steps:
 
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/terraform_plan@main
       with:
         environment: ${{ inputs.environment }} # can have required reviewers
@@ -30,6 +31,7 @@ jobs:
     if: needs.TF_plan.outputs.tfPlanExitCode == 2
     steps:
 
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/terraform_apply@main
       with:
         environment: ${{ inputs.environment }} # can have required reviewers
