@@ -5,9 +5,6 @@ inputs:
   environment:
     description: The environment where to run the action
     default: 'uat'
-  tf_src_folder:
-    description: Folder containing Terraform template files (absolute path)
-    required: true
 
 runs:
   using: "composite"    
@@ -17,10 +14,8 @@ runs:
     - name: terraform_plan_to_${{ inputs.environment }}
       environment: ${{ inputs.environment }}
       shell: pwsh
-      env: 
-        tf_src_folder: ${{ inputs.tf_src_folder }}
       run: |
-        cd $env:tf_src_folder
+        cd $env:GITHUB_WORKSPACE/src/terraform
         terraform init -upgrade -backend-config='../../configuration/${{ inputs.environment }}/backend.hcl'
         terraform plan -var-file='../../configuration/${{ inputs.environment }}/var.tfvars' -input=false -auto-approve
       env:
